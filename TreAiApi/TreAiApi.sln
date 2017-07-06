@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreAiApi", "TreAiApi\TreAiApi.csproj", "{57737B31-02B4-4625-A6CD-418F665F1289}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreAiApi.DataLayer", "TreAiApi.DataLayer\TreAiApi.DataLayer.csproj", "{912E6CF1-79F0-4E7F-A214-818B7492B729}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreAiApi.SpotifyAPI", "..\..\..\..\Desktop\MediaPlatformJS\SpotifyAPI-NET\SpotifyAPI\TreAiApi.SpotifyAPI.csproj", "{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57737B31-02B4-4625-A6CD-418F665F1289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57737B31-02B4-4625-A6CD-418F665F1289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57737B31-02B4-4625-A6CD-418F665F1289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57737B31-02B4-4625-A6CD-418F665F1289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912E6CF1-79F0-4E7F-A214-818B7492B729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912E6CF1-79F0-4E7F-A214-818B7492B729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912E6CF1-79F0-4E7F-A214-818B7492B729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912E6CF1-79F0-4E7F-A214-818B7492B729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBBE35E2-7B91-4D7D-B8FC-3A0472F5119D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
