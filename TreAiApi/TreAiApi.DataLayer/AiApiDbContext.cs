@@ -135,8 +135,6 @@ namespace TreAiApi.DataLayer
 					{
 						return date.SavedTrackLastSync;
 					}
-
-					db.SaveChanges();
 				}
 
 			}

@@ -23,67 +23,85 @@ namespace TreAiApi.Controllers
 		/// <returns></returns>
 		public async Task<List<object>> Get()
 		{
+
+			//all of this code up here may not be neccessary 
+			//I need a way to speed up the application.
 			var list = new List<object>();
 
 			using (var db = new AiApiDbContext())
 			{
-				var tracks = db.TopTracks.Take(10).ToList();
+				var tracks = db.RecentlyPlayed.ToList();
 
 				list.AddRange(tracks);
 			}
+
+			Thread kickThread = null;
+
+			kickThread = new Thread(async ()  =>
+			{
+				await KickoffSpotifySync();
+
+				AiThreadManager.RemoveThread(kickThread);
+			});
+
+			AiThreadManager.AddThread(kickThread);
+
 
 			if (list.Any())
 			{
 				return list;
 			}
-			else{
 
+
+			return new List<object>();
+		}
+
+		/// <summary>
+		/// Kicks off the spotify sync methods. The will run in the background while we fetch the users data.
+		/// </summary>
+		internal async Task<bool> KickoffSpotifySync()
+		{
 			var SController = new Spotify.SpotifyWebApi();
 			var trackedSynced = true;
 
 			//let's make sure we have a acces token because if not we cannot make any calls
-				if (SController.AccessToken != null)
+			if (SController.AccessToken != null)
+			{
+				//get the current user
+				var user = SController.GetCurrentUser();
+
+				if (user != null)
 				{
-					//get the current user
-					var user = SController.GetCurrentUser();
+					//get and save the currently playing track.
+					await SController.GetCurrentlyPlayingTrack(user.Id);
 
-					if (user != null)
+					DateTime date;
+
+					using (var db = new AiApiDbContext())
 					{
-						DateTime date;
+						//when was the last time we synched
+						date = db.GetLastSyncDate(user.Id);
 
-						using (var db = new AiApiDbContext())
+						//this call attemps to save the user
+						//if the user is already in the database it wont save them again.
+						SController.SaveUser(user);
+
+						var syncNeeded = DateTime.Compare(date, DateTime.Today);
+
+						if (!string.IsNullOrWhiteSpace(user.Id) && syncNeeded < 0)
 						{
-							//when was the last time we synched
-							date = db.GetLastSyncDate(user.Id);
-
-
-							//this call attemps to save the user
-							//if the user is already in the database it wont save them again.
-							//SController.SaveUser(user);
-
-							//var syncNeeded = DateTime.Compare(date, DateTime.Today);
-
-							//if (!string.IsNullOrWhiteSpace(user.Id) && syncNeeded < 0)
-							//{
-							//	trackedSynced = await SController.ResyncSavedTracks(user.Id);
-							//}
-
-							//var tracks = SController.GetSavedTrackFromDb(user.Id, 20);
-
-							////caller.GetRecentlyPlayedArtist();
-
-
-
-							//this determines if we should sync up the users top tracks and artists
-
-							SController.SyncTopList(user);
-
-							return new List<object>(list);
+							//await SController.ResyncSavedTracks(user.Id);
 						}
+
+						//caller.GetRecentlyPlayedArtist();
+
+						//this determines if we should sync up the users top tracks and artists
+						//SController.SyncTopList(user);
 					}
 				}
+				return true;
 			}
-			return new List<object>();
+			return false;
 		}
 
 		/// <summary>

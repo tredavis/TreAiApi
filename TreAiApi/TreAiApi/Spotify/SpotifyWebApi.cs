@@ -902,6 +902,34 @@ namespace TreAiApi.Spotify
 		}
 		#endregion
 
+		#region GetCurrentTrack
+
+		public async Task<FullTrack> GetCurrentlyPlayingTrack(string userId)
+		{
+			using (var client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.Accept.Clear();
+				client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+				HttpResponseMessage responseMessage = await client.GetAsync("https://api.spotify.com/v1/me/player/currently-playing");
+
+				if (responseMessage.IsSuccessStatusCode)
+				{
+					var responseContent = await responseMessage.Content.ReadAsStringAsync();
+					var data = JsonConvert.DeserializeObject<PlaybackContext>(responseContent);
+					
+					await dPlayHistory.AddHistoryToDatabase(data, userId);
+
+					return data.Item;
+				}
+			}
+
+			return new FullTrack();
+		}
+
+		#endregion
+
 		#region Multithreaded Calls
 
 		/// <summary>
@@ -943,6 +971,25 @@ namespace TreAiApi.Spotify
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.InnerException);
+			}
+			finally
+			{
+				using (var db = new AiApiDbContext())
+				{
+					db.TopSyncDates.Add(new sTopSync()
+					{
+						UserId = user.Id,
+						SyncTop = SpotifyTopOptions.Artists
+					});
+
+					db.TopSyncDates.Add(new sTopSync()
+					{
+						UserId = user.Id,
+						SyncTop = SpotifyTopOptions.Tracks
+					});
+
+					db.SaveChangesAsync();
+				}
 			}
 		}
 

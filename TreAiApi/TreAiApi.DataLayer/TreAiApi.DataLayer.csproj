@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AiApiDbContext.cs" />
     <Compile Include="dArtist.cs" />
+    <Compile Include="DateTimeHelpers.cs" />
     <Compile Include="dFullTrack.cs" />
     <Compile Include="dLastSync.cs" />
     <Compile Include="dPlayHistory.cs" />
@@ -75,6 +76,10 @@
     <Compile Include="Migrations\201707061824121_updateTopTrack2.cs" />
     <Compile Include="Migrations\201707061824121_updateTopTrack2.Designer.cs">
       <DependentUpon>201707061824121_updateTopTrack2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071558496_playhistory.cs" />
+    <Compile Include="Migrations\201707071558496_playhistory.Designer.cs">
+      <DependentUpon>201707071558496_playhistory.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707061824121_updateTopTrack2.resx">
       <DependentUpon>201707061824121_updateTopTrack2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071558496_playhistory.resx">
+      <DependentUpon>201707071558496_playhistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
